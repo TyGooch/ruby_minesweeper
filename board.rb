@@ -33,7 +33,7 @@ class Board
     positions = position_vals.repeated_permutation(2).to_a
     positions.shuffle!
 
-    (@difficulty * 1).times do
+    (@difficulty * 10).times do
       pos = positions.pop
       self[pos].set_bomb
       set_adj_vals(adj_tiles(pos))
@@ -82,7 +82,9 @@ class Board
   end
 
   def click(pos, act = "r")
-    if act == "f"
+    if act == "s"
+      return "s"
+    elsif act == "f"
       self[pos].set_flag
       return nil
     elsif self[pos].bomb?
@@ -132,6 +134,15 @@ class Board
     render
     puts "GAME OVER"
     @game_over = true
+  end
+
+  def empty?
+    @grid.each do |row|
+      row.each do |tile|
+        return false if tile.revealed?
+      end
+    end
+    true
   end
 
 end
